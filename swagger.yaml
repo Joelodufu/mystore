@@ -1,0 +1,484 @@
+openapi: 3.0.3
+info:
+  title: E-commerce API
+  description: API for managing carousel items and products in an e-commerce platform.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+tags:
+  - name: Carousel
+    description: Operations related to carousel items
+  - name: Products
+    description: Operations related to products
+paths:
+  /api/carousel:
+    get:
+      summary: Get all carousel items
+      description: Retrieves a list of carousel items, optionally filtered by category or search term.
+      tags:
+        - Carousel
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter carousel items by category
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search carousel items by name or description
+      responses:
+        "200":
+          description: A list of carousel items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Carousel"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    post:
+      summary: Create a new carousel item
+      description: Creates a new carousel item with a unique productId and image URL.
+      tags:
+        - Carousel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: integer
+                  description: Unique product ID (auto-generated if not provided)
+                imageUrl:
+                  type: string
+                  format: uri
+                  description: URL of the carousel image
+              required:
+                - imageUrl
+      responses:
+        "201":
+          description: Carousel item created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carousel"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/carousel/{productId}:
+    get:
+      summary: Get a carousel item by productId
+      description: Retrieves a single carousel item by its productId.
+      tags:
+        - Carousel
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: The productId of the carousel item
+      responses:
+        "200":
+          description: A carousel item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carousel"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    put:
+      summary: Update a carousel item
+      description: Updates the image URL of an existing carousel item.
+      tags:
+        - Carousel
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: The productId of the carousel item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageUrl:
+                  type: string
+                  format: uri
+                  description: Updated URL of the carousel image
+              required:
+                - imageUrl
+      responses:
+        "200":
+          description: Carousel item updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carousel"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    delete:
+      summary: Delete a carousel item
+      description: Deletes a carousel item by its productId.
+      tags:
+        - Carousel
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: The productId of the carousel item
+      responses:
+        "200":
+          description: Carousel item deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Carousel item deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/products:
+    get:
+      summary: Get all products
+      description: Retrieves a list of products, optionally filtered by category or search term.
+      tags:
+        - Products
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter products by category
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search products by name or description
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    post:
+      summary: Create a new product
+      description: Creates a new product with the specified details.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the product
+                description:
+                  type: string
+                  description: Description of the product
+                price:
+                  type: number
+                  description: Price of the product
+                category:
+                  type: string
+                  description: Category of the product
+                stock:
+                  type: integer
+                  description: Stock quantity
+                rating:
+                  type: number
+                  description: Average rating (0 to 5)
+                discountRate:
+                  type: number
+                  description: Discount percentage (0 to 100)
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  description: Array of image URLs (1 to 5)
+              required:
+                - name
+                - description
+                - price
+                - category
+                - stock
+                - images
+      responses:
+        "201":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/products/categories:
+    get:
+      summary: Get all product categories
+      description: Retrieves a list of unique product categories.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/products/{id}:
+    get:
+      summary: Get a product by ID
+      description: Retrieves a single product by its ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the product
+      responses:
+        "200":
+          description: A product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    put:
+      summary: Update a product
+      description: Updates the details of an existing product.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the product
+                description:
+                  type: string
+                  description: Description of the product
+                price:
+                  type: number
+                  description: Price of the product
+                category:
+                  type: string
+                  description: Category of the product
+                stock:
+                  type: integer
+                  description: Stock quantity
+                rating:
+                  type: number
+                  description: Average rating (0 to 5)
+                discountRate:
+                  type: number
+                  description: Discount percentage (0 to 100)
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  description: Array of image URLs (1 to 5)
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    delete:
+      summary: Delete a product
+      description: Deletes a product by its ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the product
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Product deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+components:
+  schemas:
+    Carousel:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB document ID
+        productId:
+          type: integer
+          description: Unique product ID
+        imageUrl:
+          type: string
+          format: uri
+          description: URL of the carousel image
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - productId
+        - imageUrl
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB document ID
+        id:
+          type: integer
+          description: Unique product ID
+        name:
+          type: string
+          description: Name of the product
+        description:
+          type: string
+          description: Description of the product
+        price:
+          type: number
+          description: Price of the product
+        category:
+          type: string
+          description: Category of the product
+        stock:
+          type: integer
+          description: Stock quantity
+        rating:
+          type: number
+          description: Average rating (0 to 5)
+        discountRate:
+          type: number
+          description: Discount percentage (0 to 100)
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Array of image URLs
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - name
+        - description
+        - price
+        - category
+        - stock
+        - images
+  responses:
+    BadRequest:
+      description: Bad request due to invalid input
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Invalid input
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Resource not found
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Internal server error
