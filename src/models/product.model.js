@@ -27,7 +27,12 @@
       type: String,
       required: [true, 'Category is required'],
       trim: true,
-    },
+    },   comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
     stock: {
       type: Number,
       required: [true, 'Stock is required'],

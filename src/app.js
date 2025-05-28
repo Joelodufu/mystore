@@ -10,6 +10,7 @@ const swaggerUi = require("swagger-ui-express");
 const yaml = require("js-yaml");
 const fs = require("fs");
 const morgan = require("morgan");
+const path = require("path");
 dotenv.config();
 
 const app = express();
@@ -19,10 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-  // Load Swagger YAML file
-  const swaggerDocument = yaml.load(fs.readFileSync('./swagger.yaml', 'utf8'));
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+// Load Swagger YAML file
+const swaggerDocument = yaml.load(fs.readFileSync("./swagger.yaml", "utf8"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(
   session({
@@ -31,7 +31,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: "*",
