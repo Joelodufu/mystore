@@ -30,16 +30,16 @@ paths:
             type: string
           description: Search carousel items by name or description
       responses:
-        "200":
+        '200':
           description: A list of carousel items
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Carousel"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                  $ref: '#/components/schemas/Carousel'
+        '500':
+          $ref: '#/components/responses/ServerError'
     post:
       summary: Create a new carousel item
       description: Creates a new carousel item with a unique productId and image URL.
@@ -62,16 +62,16 @@ paths:
               required:
                 - imageUrl
       responses:
-        "201":
+        '201':
           description: Carousel item created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Carousel"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Carousel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /api/carousel/{productId}:
     get:
       summary: Get a carousel item by productId
@@ -86,16 +86,16 @@ paths:
             type: integer
           description: The productId of the carousel item
       responses:
-        "200":
+        '200':
           description: A carousel item
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Carousel"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Carousel'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     put:
       summary: Update a carousel item
       description: Updates the image URL of an existing carousel item.
@@ -122,18 +122,18 @@ paths:
               required:
                 - imageUrl
       responses:
-        "200":
+        '200':
           description: Carousel item updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Carousel"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Carousel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       summary: Delete a carousel item
       description: Deletes a carousel item by its productId.
@@ -147,7 +147,7 @@ paths:
             type: integer
           description: The productId of the carousel item
       responses:
-        "200":
+        '200':
           description: Carousel item deleted
           content:
             application/json:
@@ -157,10 +157,10 @@ paths:
                   message:
                     type: string
                     example: Carousel item deleted
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /api/products:
     get:
       summary: Get all products
@@ -179,16 +179,16 @@ paths:
             type: string
           description: Search products by name or description
       responses:
-        "200":
+        '200':
           description: A list of products
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                  $ref: '#/components/schemas/Product'
+        '500':
+          $ref: '#/components/responses/ServerError'
     post:
       summary: Create a new product
       description: Creates a new product with the specified details.
@@ -236,16 +236,16 @@ paths:
                 - stock
                 - images
       responses:
-        "201":
+        '201':
           description: Product created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /api/products/categories:
     get:
       summary: Get all product categories
@@ -253,7 +253,7 @@ paths:
       tags:
         - Products
       responses:
-        "200":
+        '200':
           description: A list of categories
           content:
             application/json:
@@ -261,8 +261,8 @@ paths:
                 type: array
                 items:
                   type: string
-        "500":
-          $ref: "#/components/responses/ServerError"
+        '500':
+          $ref: '#/components/responses/ServerError'
   /api/products/{id}:
     get:
       summary: Get a product by ID
@@ -277,16 +277,16 @@ paths:
             type: integer
           description: The ID of the product
       responses:
-        "200":
+        '200':
           description: A product
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Product'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     put:
       summary: Update a product
       description: Updates the details of an existing product.
@@ -334,18 +334,18 @@ paths:
                     format: uri
                   description: Array of image URLs (1 to 5)
       responses:
-        "200":
+        '200':
           description: Product updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       summary: Delete a product
       description: Deletes a product by its ID.
@@ -359,7 +359,7 @@ paths:
             type: integer
           description: The ID of the product
       responses:
-        "200":
+        '200':
           description: Product deleted
           content:
             application/json:
@@ -369,10 +369,10 @@ paths:
                   message:
                     type: string
                     example: Product deleted
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
 components:
   schemas:
     Carousel:
