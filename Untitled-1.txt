@@ -1,0 +1,22 @@
+clean/
+  features/
+    product/
+      controllers/
+        product.controller.js
+      entities/
+        Product.js
+      repositories/
+        productRepository.interface.js
+        productRepository.mongo.js
+      usecases/
+        createProduct.js
+        getProductById.js
+        getProducts.js
+        updateProduct.js
+        deleteProduct.js
+      routes/
+        product.routes.js
+  app.js
+  server.js
+  models/
+    product.model.js

@@ -15,6 +15,9 @@ dotenv.config();
 
 const app = express();
 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
+
 app.use((req, res, next) => {
   console.log("Request:", req.method, req.originalUrl);
   next();
@@ -31,7 +34,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: "*",
