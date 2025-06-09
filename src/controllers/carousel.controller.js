@@ -18,7 +18,14 @@ exports.getCarousel = asyncHandler(async (req, res) => {
   }
 
   const carousel = await Carousel.find(query);
-  res.json(carousel);
+  res.status(200).json(
+    {
+      status: "success",
+      
+      message:"Carousels retrieved",
+      data: carousel
+    }
+  );
 });
 
 // Get single carousel item by productId
